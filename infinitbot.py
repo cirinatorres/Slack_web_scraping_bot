@@ -5,9 +5,9 @@
 # It must use Python and the modul requests (not webdriver).
 
 import requests
-from time import sleep
 
 # from bs4 import BeautifulSoup
+from time import sleep
 from user_agent import generate_user_agent
 from lxml.html import fromstring
 from slack_webhook import Slack
@@ -127,7 +127,8 @@ def get_sizes(sneaker_tree):
 # minimum, maximum and country size.
 # Proceeds to send a Webhook message to the Slack channel.
 # Reference to build the message - https://app.slack.com/block-kit-builder/T023DP1C5PH#%7B%22blocks%22:%5B%5D%7D
-def send_webhook(slack_url, sneaker_url, picture_url, model, brand, referenceCode, value, currency, month, day, hour, time_zone, min_size, max_size, country):
+def send_webhook(slack_url, sneaker_url, picture_url, model, brand, referenceCode, \
+	value, currency, month, day, hour, time_zone, min_size, max_size, country):
 	slack = Slack(url=slack_url)
 	slack.post(text="Raffle Monitor",
 	    blocks = [
@@ -180,7 +181,8 @@ while (True):
 					value, currency = get_price(sneaker_tree)
 					month, day, hour, time_zone = get_closing_date(sneaker_tree)
 					min_size, max_size, country = get_sizes(sneaker_tree)
-					send_webhook(slack_url, sneaker_url, picture_url, model, brand, referenceCode, value, currency, month, day, hour, time_zone, min_size, max_size, country)
+					send_webhook(slack_url, sneaker_url, picture_url, model, brand, \
+						referenceCode, value, currency, month, day, hour, time_zone, min_size, max_size, country)
 				else:
 					sneaker_response.raise_for_status()
 		sleep(10)
